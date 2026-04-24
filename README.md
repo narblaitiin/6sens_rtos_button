@@ -2,8 +2,7 @@
 
 ## Overview
 A simple button demo showcasing the use of GPIO input with interrupts.
-This example purpose a GPIO interrupt handling with buttons and LEDs defined in Devicetree
-
+This example purpose a GPIO interrupt handling with buttons and LEDs defined in Devicetree.
 The version of Zephyr RTOS used is the version v4.0.0.
 
 ## Board used
