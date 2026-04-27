@@ -62,22 +62,22 @@ static int setup_button(const struct gpio_dt_spec *btn, struct gpio_callback *cb
     // configure the buttons as active input pins
     ret = gpio_pin_configure_dt(btn, GPIO_INPUT);
     if (ret < 0) {
-        printk("gpio_pin_configure_dt failed. error: %d\n", ret);
+        printk("GPIO pin configuration failed. error: %d\n", ret);
         return ret;
     }
 
     // enable interrupt on falling edge (button press)
     ret = gpio_pin_interrupt_configure_dt(btn, GPIO_INT_EDGE_TO_ACTIVE);
     if (ret < 0) {
-        printk("gpio_pin_interrupt_configure_dt failed. error: %d\n", ret);
+        printk("GPIO interrupt configuration failed. error: %d\n", ret);
         return ret;
     }
 
-    /* 4. Init and add the callback */
+    // init and add the callback
     gpio_init_callback(cb_data, handler, BIT(btn->pin));
     ret = gpio_add_callback(btn->port, cb_data);
     if (ret < 0) {
-        printk("gpio_add_callback failed. error: %d\n", ret);
+        printk("GPIO callback. error: %d\n", ret);
         return ret;
     }
 
@@ -88,14 +88,12 @@ static int setup_button(const struct gpio_dt_spec *btn, struct gpio_callback *cb
 static int setup_led(const struct gpio_dt_spec *led)
 {
     if (!gpio_is_ready_dt(led)) {
-        printk("ERROR: GPIO device %s not ready\n", led->port->name);
+        printk("GPIO device %s not ready\n", led->port->name);
         return -ENODEV;
     }
 
     return gpio_pin_configure_dt(led, GPIO_OUTPUT_INACTIVE);
 }
-
-
 
 //  ========== main ========================================================================
 int8_t main(void)
@@ -109,7 +107,7 @@ int8_t main(void)
     // configure buttons */
     if (setup_button(&btn0, &btn0_cb_data, btn0_pressed) < 0 ||
         setup_button(&btn1, &btn1_cb_data, btn1_pressed) < 0) {
-        printk("Button setup failed — aborting\n");
+        printk("button setup failed — aborting\n");
         return -1;
     }
 
